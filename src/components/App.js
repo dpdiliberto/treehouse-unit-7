@@ -19,24 +19,27 @@ export default class App extends Component {
     super();
     this.state = {
       photos: [],
-      isLoading: true
+      isLoading: true,
+      query: ''
     };
   }
 
+  // Function to perform a search based on the input query string, resulting in an array of photos
   performSearch = (query) => {
     axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${query}&per_page=24&format=json&nojsoncallback=1`)
     .then(response => {
       this.setState({
         photos: response.data.photos.photo,
-        isLoading: false
+        isLoading: false,
+        query: query
       })
+      console.log(`Current query: ${this.state.query}`);
     })
     .catch( error => {
       console.log('Error fetching and parsing data', error);
     });
   }
 
-  /* https://live.staticflickr.com/{server-id}/{id}_{secret}.jpg */
 
   
   render () {
@@ -45,11 +48,11 @@ export default class App extends Component {
         <div className="App">
           <Route path='/' render={ () => <SearchForm onSearch={this.performSearch} /> } />
           <Nav onSearch={this.performSearch} isLoading={this.state.isLoading} />
-          <Route exact path='/' render={ () => <Redirect to={'/cats'} />} />
-          <Route path={`/cats`} 
+          <Route exact path='/' render={ () => <Redirect to={'/sunsets'} />} />
+          <Route path={`/sunsets`} 
               render={ () => 
               <PhotoList 
-                data={'cats'} 
+                data={'sunsets'} 
                 onSearch={this.performSearch} 
                 photos={this.state.photos}
               />} />         
@@ -60,10 +63,10 @@ export default class App extends Component {
                   onSearch={this.performSearch} 
                   photos={this.state.photos}
                 /> } />     
-          <Route path={`/dogs`} 
+          <Route path={`/dolphins`} 
               render={ () => 
                 <PhotoList 
-                  data={'dogs'} 
+                  data={'dolphins'} 
                   onSearch={this.performSearch} 
                   photos={this.state.photos}
                 /> } />     

@@ -4,12 +4,13 @@ import Photo from './Photo';
 
 class PhotoList extends Component {
 
+    // When component mounts, run search on route path data prop. Data prop initializes as 'sunsets'
     componentDidMount() {
         this.props.onSearch(this.props.data);
       }
 
     render() {
-        console.log(this.props.match.params.query);
+        // Build Photo components with each of the 24 resulting photos
         const data = this.props.photos;
         let photos;
         if (data.length > 0) {

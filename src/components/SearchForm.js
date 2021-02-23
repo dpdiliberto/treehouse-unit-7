@@ -7,15 +7,16 @@ class SearchForm extends Component {
         searchText: ''
     }
 
+    // Update searchText state when input is updated
     onSearchChange = e => {
       this.setState({ searchText: e.target.value });
     }
     
+    // When form is submitted, search for input and update path
     handleSubmit = e => {
       e.preventDefault();
       this.props.onSearch(this.state.searchText);
       e.currentTarget.reset();
-      console.log(`Submitted with: ${this.state.searchText}`);
       let path = `search/${this.state.searchText}`;
       this.props.history.push(path);
     }
