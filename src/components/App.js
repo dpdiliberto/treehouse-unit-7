@@ -9,7 +9,7 @@ import PhotoList from './PhotoList';
 import {
   HashRouter,
   Route,
-  Switch,
+  //Switch,
   Redirect
 } from 'react-router-dom';
 
@@ -70,12 +70,16 @@ export default class App extends Component {
                   onSearch={this.performSearch} 
                   photos={this.state.photos}
                 /> } />     
-          <Route path={"/search/:query"} 
+          {/* <Route path={"/search/:query"} 
               render={ () => 
                 <PhotoList 
                   onSearch={this.performSearch} 
                   photos={this.state.photos}
-                /> } />
+                /> } /> */}
+          <PhotoList 
+            onSearch={this.performSearch} 
+            photos={this.state.photos}
+          />
         </div>
       </HashRouter>
     );

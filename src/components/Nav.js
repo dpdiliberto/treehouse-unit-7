@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import { Route, NavLink, Redirect } from 'react-router-dom';
+import { 
+    //Route, 
+    NavLink 
+    //, Redirect 
+    } 
+from 'react-router-dom';
 
 class Nav extends Component {
     // run a search based on the navigation element's text
