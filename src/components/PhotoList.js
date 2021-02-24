@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import Photo from './Photo';
+import NoMatches from './NoMatches';
 
 class PhotoList extends Component {
 
@@ -21,13 +22,15 @@ class PhotoList extends Component {
                     id={photo.id}
                     key={photo.id} 
                 />)
+        } else {
+            photos = <NoMatches />
         }
         
         return (
             <div className="photo-container">
-                <h2>Results</h2>
+                <h2>Results for: "{this.props.query}"</h2>
                 <ul>
-                    {photos}
+                    { photos }
                 </ul>
             </div>
         )

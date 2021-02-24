@@ -5,11 +5,12 @@ import axios from 'axios';
 import SearchForm from './SearchForm';
 import Nav from './Nav';
 import PhotoList from './PhotoList';
+import Error from './Error';
 
 import {
   HashRouter,
   Route,
-  //Switch,
+  Switch,
   Redirect
 } from 'react-router-dom';
 
@@ -46,40 +47,49 @@ export default class App extends Component {
     return (
       <HashRouter>
         <div className="App">
-          <Route path='/' render={ () => <SearchForm onSearch={this.performSearch} /> } />
-          <Nav onSearch={this.performSearch} isLoading={this.state.isLoading} />
-          <Route exact path='/' render={ () => <Redirect to={'/sunsets'} />} />
-          <Route path={`/sunsets`} 
-              render={ () => 
-              <PhotoList 
-                data={'sunsets'} 
-                onSearch={this.performSearch} 
-                photos={this.state.photos}
-              />} />         
-          <Route path={`/ocean`} 
-              render={ () => 
-                <PhotoList 
-                  data={'ocean'} 
-                  onSearch={this.performSearch} 
-                  photos={this.state.photos}
-                /> } />     
-          <Route path={`/dolphins`} 
-              render={ () => 
-                <PhotoList 
-                  data={'dolphins'} 
-                  onSearch={this.performSearch} 
-                  photos={this.state.photos}
-                /> } />     
-          {/* <Route path={"/search/:query"} 
-              render={ () => 
-                <PhotoList 
-                  onSearch={this.performSearch} 
-                  photos={this.state.photos}
-                /> } /> */}
-          <PhotoList 
-            onSearch={this.performSearch} 
-            photos={this.state.photos}
-          />
+          <SearchForm onSearch={this.performSearch} /> 
+          <Nav onSearch={this.performSearch} isLoading={this.state.isLoading} query={this.state.query}/>
+          <Switch>
+              <Route exact path='/' render={ () => <Redirect to={'/sunsets'} />} />
+              <Route path={`/sunsets`} 
+                  render={ () => 
+                  <PhotoList 
+                    data={'sunsets'} 
+                    onSearch={this.performSearch} 
+                    photos={this.state.photos}
+                    query={this.state.query}
+                    isLoading={this.state.isLoading}
+                  />} />         
+              <Route path={`/ocean`} 
+                  render={ () => 
+                    <PhotoList 
+                      data={'ocean'} 
+                      onSearch={this.performSearch} 
+                      photos={this.state.photos}
+                      query={this.state.query}
+                    isLoading={this.state.isLoading}
+                    /> } />     
+              <Route path={`/dolphins`} 
+                  render={ () => 
+                    <PhotoList 
+                      data={'dolphins'} 
+                      onSearch={this.performSearch} 
+                      photos={this.state.photos}
+                      query={this.state.query}
+                    isLoading={this.state.isLoading}
+                    /> } />     
+              <Route path={"/search/:query"} 
+                  render={ () => 
+                    <PhotoList 
+                      onSearch={this.performSearch} 
+                      photos={this.state.photos}
+                      query={this.state.query}
+                      isLoading={this.state.isLoading}
+                    /> } />     
+              <Route path={"/"} 
+                  render={ () => 
+                    <Error /> } />
+            </Switch>
         </div>
       </HashRouter>
     );
