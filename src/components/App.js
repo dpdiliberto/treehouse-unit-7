@@ -21,7 +21,8 @@ export default class App extends Component {
     this.state = {
       photos: [],
       isLoading: true,
-      query: ''
+      query: '',
+      navElements: ['sunsets', 'ocean', 'dolphins']
     };
   }
 
@@ -34,50 +35,34 @@ export default class App extends Component {
         isLoading: false,
         query: query
       })
-      console.log(`Current query: ${this.state.query}`);
     })
     .catch( error => {
       console.log('Error fetching and parsing data', error);
     });
   }
 
-
-  
   render () {
+
     return (
+      
       <HashRouter>
         <div className="App">
-          <SearchForm onSearch={this.performSearch} /> 
+          <SearchForm onSearch={this.performSearch}/> 
           <Nav onSearch={this.performSearch} isLoading={this.state.isLoading} query={this.state.query}/>
           <Switch>
               <Route exact path='/' render={ () => <Redirect to={'/sunsets'} />} />
-              <Route path={`/sunsets`} 
+
+              {this.state.navElements.map( element =>
+                <Route path={`/${element}`} 
                   render={ () => 
                   <PhotoList 
-                    data={'sunsets'} 
                     onSearch={this.performSearch} 
                     photos={this.state.photos}
-                    query={this.state.query}
+                    query={`${element}`}
                     isLoading={this.state.isLoading}
-                  />} />         
-              <Route path={`/ocean`} 
-                  render={ () => 
-                    <PhotoList 
-                      data={'ocean'} 
-                      onSearch={this.performSearch} 
-                      photos={this.state.photos}
-                      query={this.state.query}
-                    isLoading={this.state.isLoading}
-                    /> } />     
-              <Route path={`/dolphins`} 
-                  render={ () => 
-                    <PhotoList 
-                      data={'dolphins'} 
-                      onSearch={this.performSearch} 
-                      photos={this.state.photos}
-                      query={this.state.query}
-                    isLoading={this.state.isLoading}
-                    /> } />     
+                  />} />
+              )}
+
               <Route path={"/search/:query"} 
                   render={ () => 
                     <PhotoList 
@@ -85,7 +70,8 @@ export default class App extends Component {
                       photos={this.state.photos}
                       query={this.state.query}
                       isLoading={this.state.isLoading}
-                    /> } />     
+                    /> } />   
+
               <Route path={"/"} 
                   render={ () => 
                     <Error /> } />
