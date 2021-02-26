@@ -2,6 +2,7 @@ body {
   text-align: center;
   font-family: 'Open Sans', sans-serif;
   color: #3f4850;
+  background-color: #C9DADB;
 }
 
 h2 {
@@ -77,6 +78,7 @@ input {
   height: 165px;
   overflow: hidden;
   margin-bottom: 15px;
+  border-color: black;
 }
 
 .photo-container ul img {

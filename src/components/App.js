@@ -26,7 +26,8 @@ export default class App extends Component {
     };
   }
 
-  // Function to perform a search based on the input query string, resulting in an array of photos
+  // Function to perform a search based on the input query string from either the Nav component or SearchForm component
+  // Function results in an array of photos from corresponding query
   performSearch = (query) => {
     axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${query}&per_page=24&format=json&nojsoncallback=1`)
     .then(response => {
@@ -44,15 +45,19 @@ export default class App extends Component {
   render () {
 
     return (
-      
       <HashRouter>
         <div className="App">
+
+          {/* Mount components with corresponding props */}
           <SearchForm onSearch={this.performSearch}/> 
           <Nav onSearch={this.performSearch} isLoading={this.state.isLoading} query={this.state.query}/>
           <Switch>
+
+              {/* Redirect so that default page is of sunsets */}
               <Route exact path='/' render={ () => <Redirect to={'/sunsets'} />} />
 
-              {this.state.navElements.map( element =>
+              {/* Create a route for each of the Nav elements */}
+              {this.state.navElements.map( (element, index) =>
                 <Route path={`/${element}`} 
                   render={ () => 
                   <PhotoList 
@@ -60,9 +65,11 @@ export default class App extends Component {
                     photos={this.state.photos}
                     query={`${element}`}
                     isLoading={this.state.isLoading}
+                    key={index}
                   />} />
               )}
 
+              {/* Create a route for searches */}
               <Route path={"/search/:query"} 
                   render={ () => 
                     <PhotoList 
@@ -72,6 +79,7 @@ export default class App extends Component {
                       isLoading={this.state.isLoading}
                     /> } />   
 
+              {/* Create route to Error component if URL does not match any of the above routes */}
               <Route path={"/"} 
                   render={ () => 
                     <Error /> } />

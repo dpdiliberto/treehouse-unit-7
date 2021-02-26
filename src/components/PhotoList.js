@@ -15,27 +15,33 @@ class PhotoList extends Component {
         this.props.onSearch(this.props.query);
     }
 
+
    componentDidUpdate() { 
-        let query = '';
+        let query;
     
+        // Check if the query came from URL corresponds to a nav element or a search and assign to 'query' variable
         (this.props.match.params.query) ? query = this.props.match.params.query : query = this.props.query; 
 
+        // Check if the new query is not equal to the previous query so that componentDidUpdate() only updates the photo list once per update
         if (this.state.previousQuery !== query) {
+
+            // Search for photos based on URL query
             this.props.onSearch(query);
-            this.setState(prevState => ({
-                previousQuery: query
-            }))
+            this.setState({previousQuery: query})
         }    
     }
 
     render() {
 
-        // Build Photo components with each of the 24 resulting photos
         const data = this.props.photos;
         let photos;
+
+        // Display Loading component before the component has loaded
         if (this.props.isLoading) {
             photos = <Loading />
         } else {
+
+            // Build Photo components with each of the 24 resulting photos
             if (data.length > 0) {
                 photos = data.map(photo => 
                     <Photo 
@@ -45,6 +51,8 @@ class PhotoList extends Component {
                         key={photo.id} 
                     />)
             } else {
+
+                // Show NoMatches component is there are no matches
                 photos = <NoMatches />
             }
         }
