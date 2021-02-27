@@ -3,6 +3,7 @@ import { withRouter } from 'react-router';
 import Photo from './Photo';
 import NoMatches from './NoMatches';
 import Loading from './Loading';
+import PropTypes from 'prop-types';
 
 class PhotoList extends Component {
 
@@ -66,6 +67,13 @@ class PhotoList extends Component {
             </div>
         )
     }
+}
+
+PhotoList.propTypes = {
+    onSearch: PropTypes.func,
+    photos: PropTypes.array.isRequired,
+    query: PropTypes.string.isRequired,
+    isLoading: PropTypes.func
 }
 
 export default PhotoList = withRouter(PhotoList);

@@ -21,8 +21,7 @@ export default class App extends Component {
     this.state = {
       photos: [],
       isLoading: true,
-      query: '',
-      navElements: ['sunsets', 'ocean', 'dolphins']
+      query: ''
     };
   }
 
@@ -50,27 +49,57 @@ export default class App extends Component {
 
           {/* Mount components with corresponding props */}
           <SearchForm onSearch={this.performSearch}/> 
-          <Nav onSearch={this.performSearch} isLoading={this.state.isLoading} query={this.state.query}/>
+          <Nav />
           <Switch>
 
               {/* Redirect so that default page is of sunsets */}
               <Route exact path='/' render={ () => <Redirect to={'/sunsets'} />} />
 
-              {/* Create a route for each of the Nav elements */}
+              {/* Create a route for each of the Nav elements 
+              -- Opportunity to refactor in the future
+              -- As of now, this causes the application to load photos twice per update, which is not ideal
+
               {this.state.navElements.map( (element, index) =>
-                <Route path={`/${element}`} 
+                <Route path={`/${element}`} key={index}
                   render={ () => 
                   <PhotoList 
                     onSearch={this.performSearch} 
                     photos={this.state.photos}
                     query={`${element}`}
                     isLoading={this.state.isLoading}
-                    key={index}
                   />} />
-              )}
+              )} */}
+
+              {/* Create a route for each of the Nav elements */}
+              <Route path={`/sunsets`}
+                  render={ () => 
+                  <PhotoList 
+                    onSearch={this.performSearch} 
+                    photos={this.state.photos}
+                    query={`sunsets`}
+                    isLoading={this.state.isLoading}
+                  />} />
+
+              <Route path={`/ocean`}
+                  render={ () => 
+                  <PhotoList 
+                    onSearch={this.performSearch} 
+                    photos={this.state.photos}
+                    query={`ocean`}
+                    isLoading={this.state.isLoading}
+                  />} />
+
+                <Route path={`/dolphins`}
+                  render={ () => 
+                  <PhotoList 
+                    onSearch={this.performSearch} 
+                    photos={this.state.photos}
+                    query={`dolphins`}
+                    isLoading={this.state.isLoading}
+                  />} />
 
               {/* Create a route for searches */}
-              <Route path={"/search/:query"} 
+              <Route path={"/search/:query"}
                   render={ () => 
                     <PhotoList 
                       onSearch={this.performSearch} 
